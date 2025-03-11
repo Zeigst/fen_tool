@@ -40,5 +40,5 @@ class FenTool:
         for index, fen_string in enumerate(fen_strings):
             output_path = cfg.outputs_path + f"/{index+1}.png"
             FenTool.fen2png_convert(fen_string=fen_string, output_path=output_path)
-            time.sleep(1)
+            time.sleep(cfg.sleep_time)
         logger.info("=== CONVERTING COMPLETE ===")

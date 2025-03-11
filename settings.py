@@ -10,6 +10,7 @@ class Settings(
 ):
     inputs_path: str
     outputs_path: str
+    sleep_time: float
 
     class Config:
         env_file = ".env"
