@@ -1,0 +1,5 @@
+requests==2.32.3
+python-dotenv==1.0.1
+kink==0.8.1
+pydantic-settings==2.8.1
+loguru==0.7.3
