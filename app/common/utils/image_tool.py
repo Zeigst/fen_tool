@@ -19,13 +19,13 @@ class ImageTool:
         img_width, img_height = image.size
         turn_width, turn_height = turn_image.size
 
-        new_width = img_width
-        new_height = img_height + turn_width + 12
+        new_width = img_width + turn_width + 12
+        new_height = img_height
 
         new_image = Image.new("RGBA", (new_width, new_height), (255, 255, 255, 0))
 
-        new_image.paste(image, (0, turn_height + 12))
-        new_image.paste(turn_image, (img_width - 12 - turn_width, 0))
+        new_image.paste(image, (0, 0))
+        new_image.paste(turn_image, (img_width + 12, 12))
 
         new_image.save(image_path)
 
