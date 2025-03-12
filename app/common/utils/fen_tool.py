@@ -1,3 +1,4 @@
+import os
 from kink import inject
 from loguru import logger
 import requests
@@ -11,8 +12,11 @@ class FenTool:
 
     @staticmethod
     @inject
-    def fen2png_convert(fen_string: str, output_path: str, cfg: Settings):
-        if fen_regex.match(fen_string):
+    def fen2png_convert(fen_string: str, output_path: str, cfg: Settings) -> None:
+        if not fen_regex.match(fen_string):
+            logger.error(f"Invalid FEN string: {fen_string}")
+            return
+        try:
             url = cfg.fen2png_base_url + "/api/"
             params = {
                 "fen": fen_string,
@@ -20,22 +24,22 @@ class FenTool:
             }
             response = requests.get(url=url, params=params, stream=True)
             if response.status_code == 200:
-                try:
-                    with open(output_path, "wb") as file:
-                        for chunk in response.iter_content(1024):
-                            file.write(chunk)
-                    logger.success(f"Convert Success: {output_path}")
-                except OSError:
-                    logger.error(f"Invalid Save Path: {output_path}")
+                with open(output_path, "wb") as file:
+                    for chunk in response.iter_content(1024):
+                        file.write(chunk)
+                logger.success(f"Convert Success: {output_path}")
             else:
                 logger.error(f"API Failure: {fen_string}")
-        else:
-            logger.error(f"Invalid FEN string: {fen_string}")
+        except Exception as e:
+            logger.error(e)
 
 
     @staticmethod
     @inject
-    def fen2png_convert_batch(fen_strings: list[str], cfg: Settings):
+    def fen2png_convert_batch(fen_strings: list[str], cfg: Settings) -> None:
+        if not os.path.exists(cfg.outputs_path):
+            logger.error(f"Invalid outputs_path: {cfg.outputs_path}")
+            return
         logger.info("=== START CONVERTING ===")
         for index, fen_string in enumerate(fen_strings):
             output_path = cfg.outputs_path + f"/{index+1}.png"
