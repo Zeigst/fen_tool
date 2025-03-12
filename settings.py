@@ -6,7 +6,8 @@ from dotenv import load_dotenv
 load_dotenv()
 
 class Settings(
-    FEN2PngSettings
+    FEN2PngSettings,
+    ChessvisionSettings,
 ):
     inputs_path: str
     outputs_path: str

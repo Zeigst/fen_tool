@@ -3,3 +3,4 @@ python-dotenv==1.0.1
 kink==0.8.1
 pydantic-settings==2.8.1
 loguru==0.7.3
+pillow==11.1.0
